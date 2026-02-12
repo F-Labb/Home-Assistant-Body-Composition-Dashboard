@@ -1,0 +1,29 @@
+{# --- CONFIGURATION: CHANGE YOUR SENSOR IDS HERE --- #}
+{% set score_sensor = 'sensorYOUR_body_score' %}
+{% set fat_sensor = 'sensor.YOUR_body_fat' %}
+{% set bmi_sensor = 'sensor.YOUR_bmi' %}
+{% set visceral_sensor = 'sensor.YOUR_visceral_fat' %}
+{% set water_sensor = 'sensor.YOUR_water' %}
+{# -------------------------------------------------- #}
+
+Hi, {{user}}!
+---------------
+**Overall Body Score:** {% set score = states(score_sensor) | float(0) %} {{'<ha-alert alert-type="error"> Unsatisfactory, and you must fix it! </ha-alert>' if score <= 50 else
+'<ha-alert alert-type="warning"> Normal, but no reason to give up! </ha-alert>' if 50 < score <= 65 else
+'<ha-alert alert-type="success"> Good, but you can definitely do better! </ha-alert>' if 66 < score <= 80 else
+'<ha-alert alert-type="success"> Magnificent! You are in great shape! </ha-alert>' if 81 < score <= 100
+ }}
+
+{% set fat = states(fat_sensor) | float(0) %} {{ '<ha-alert alert-type="info"> Body fat is below normal </ha-alert>' if fat <= 5 else
+'<ha-alert alert-type="success"> Athletic physique </ha-alert>' if 5 < fat <= 13 else
+'<ha-alert alert-type="success"> Lean physique </ha-alert>' if 14 < fat <= 17 else
+'<ha-alert alert-type="info"> Average physique </ha-alert>' if 17 < fat <= 24 else
+'<ha-alert alert-type="error"> Obesity </ha-alert>' if 18 < fat }} {% set bmi = states(bmi_sensor) | float(0) %} {{'<ha-alert alert-type="info"> Underweight </ha-alert>' if bmi <= 18 else
+'<ha-alert alert-type="success"> Normal body mass </ha-alert>' if 18 < bmi <= 25 else
+'<ha-alert alert-type="info"> Overweight </ha-alert>' if 25 < bmi <= 30 else
+'<ha-alert alert-type="error"> Obesity Class I </ha-alert>' if 30 <  bmi <= 35 else
+'<ha-alert alert-type="error"> Obesity Class II </ha-alert>' if 35 < bmi <= 40 }} {% set ves = states(visceral_sensor) | float(0) %} {{ '<ha-alert alert-type="success"> Visceral fat level is normal </ha-alert>' if ves < 9 else
+'<ha-alert alert-type="error"> Visceral fat level is above normal </ha-alert>' if 10 < ves <= 14 else
+'<ha-alert alert-type="error"> Dangerous visceral fat level </ha-alert>' if ves > 14 }} {% set w = states(water_sensor) | float(0) %} {{ '<ha-alert alert-type="info"> Water content below normal </ha-alert>' if 50 > w else
+'<ha-alert alert-type="success"> Water content is normal </ha-alert>' if 50 <= w <= 65
+else '<ha-alert alert-type="error"> High water content </ha-alert>' if 65 < w }}

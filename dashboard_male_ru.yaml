@@ -1,0 +1,29 @@
+{# --- КОНФИГУРАЦИЯ: УКАЖИТЕ ID ВАШИХ ДАТЧИКОВ ТУТ --- #}
+{% set score_sensor = 'sensor.ТВОЙ_body_score' %}
+{% set fat_sensor = 'sensor.ТВОЙ_body_fat' %}
+{% set bmi_sensor = 'sensor.ТВОЙ_bmi' %}
+{% set visceral_sensor = 'sensor.ТВОЙ_visceral_fat' %}
+{% set water_sensor = 'sensor.ТВОЙ_water' %}
+{# -------------------------------------------------- #}
+
+Привет, {{user}}!
+---------------
+**Общая оценка тела:** {% set score = states(score_sensor) | float(0) %} {{'<ha-alert alert-type="error"> Неудовлетворительно, и ты должен это исправить! </ha-alert>' if score <= 50 else
+'<ha-alert alert-type="warning"> Нормально, но это не повод сдаваться! </ha-alert>' if 50 < score <= 65 else
+'<ha-alert alert-type="success"> Хорошо, но ты точно можешь лучше! </ha-alert>' if 66 < score <= 80 else
+'<ha-alert alert-type="success"> Великолепно! Ты в отличной форме! </ha-alert>' if 81 < score <= 100
+ }}
+
+{% set fat = states(fat_sensor) | float(0) %} {{ '<ha-alert alert-type="info"> Содержание жира ниже нормы </ha-alert>' if fat <= 5 else
+'<ha-alert alert-type="success"> Спортивное телосложение </ha-alert>' if 5 < fat <= 13 else
+'<ha-alert alert-type="success"> Подтянутое телосложение </ha-alert>' if 14 < fat <= 17 else
+'<ha-alert alert-type="info"> Обычное телосложение </ha-alert>' if 17 < fat <= 24 else
+'<ha-alert alert-type="error"> Ожирение </ha-alert>' if 24 < fat }} {% set bmi = states(bmi_sensor) | float(0) %} {{'<ha-alert alert-type="info"> Дефицит массы тела </ha-alert>' if bmi <= 18 else
+'<ha-alert alert-type="success"> Масса тела в норме </ha-alert>' if 18 < bmi <= 25 else
+'<ha-alert alert-type="info"> Лишний вес </ha-alert>' if 25 < bmi <= 30 else
+'<ha-alert alert-type="error"> Ожирение </ha-alert>' if 30 <  bmi <= 35 else
+'<ha-alert alert-type="error"> Ожирение второй степени </ha-alert>' if 35 < bmi <= 40 }} {% set ves = states(visceral_sensor) | float(0) %} {{ '<ha-alert alert-type="success"> Содержание висцерального жира в норме </ha-alert>' if ves < 9 else
+'<ha-alert alert-type="error"> Содержание висцерального жира выше нормы </ha-alert>' if 10 < ves <= 14 else
+'<ha-alert alert-type="error"> Опасное содержание висцерального жира </ha-alert>' if ves > 14 }} {% set w = states(water_sensor) | float(0) %} {{ '<ha-alert alert-type="info"> Содержание воды ниже нормы </ha-alert>' if 50 > w else
+'<ha-alert alert-type="success"> Содержание воды в норме </ha-alert>' if 50 <= w <= 65
+else '<ha-alert alert-type="error"> Высокое содержание воды </ha-alert>' if 65 < w }}

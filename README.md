@@ -1,35 +1,46 @@
-# Home-Assistant-Body-Composition-Dashboard
-A script for creating an informative dashboard based on data from smart scales (Xiaomi Mi Body Composition Scale 1/2 and others) in Home Assistant.
+# 📊 Home Assistant Body Composition Dashboard
 
-**Features**
+A customizable Markdown-based dashboard for Home Assistant that visualizes data from smart scales (Xiaomi Mi Body Composition Scale 1/2 and others). 
 
-• Interactive notifications: Use the <ha-alert> component for visual status assessment.
+This project provides high-visibility alerts and motivational feedback based on your body metrics.
 
-• Smart logic: Automatically calculates categories, from "Athletic" to "Dangerous visceral fat levels."
+## ✨ Features
+- **Dynamic Alerts:** Uses `<ha-alert>` components that change color based on your results.
+- **Gender-Specific Logic:** Separate templates for Male and Female users with adjusted physiological norms (Fat %, Water %).
+- **Easy Setup:** All sensor configurations are moved to the top of the script for quick replacement.
+- **Multilingual:** Supports both English and Russian languages.
 
-• Flexible customization: Easily adapt to your sensor IDs.
+## 📸 Preview
 
-• Standards support: Indicator limits are set according to generally accepted fitness standards and BMI.
+![Dashboard Example](https://github.com/F-Labb/Home-Assistant-Body-Composition-Dashboard/blob/main/preview.jpeg)
 
-**Screenshot**
-[soon]
+## 🚀 Installation
 
-**Installation**
+1. Create a new **Markdown Card** on your Home Assistant dashboard.
+2. Choose the version you need from this repository:
+   - `male_en.jinja` / `male_ru.jinja`
+   - `female_en.jinja` / `female_ru.jinja`
+3. Copy the code and paste it into the card.
+4. **Important:** Update the configuration block at the top of the script with your actual entity IDs:
 
-1. Make sure your scale is integrated into Home Assistant (via ESPHome, BLE Monitor, or the official integration).
-   
-2. Create a new Markdown card on your dashboard.
-  
-3. Copy the contents of the body_composition.jinja file (or simply paste the code from the repository) into the card's code field.
-   
-4. Replace the sensor names in the set block with your own:
+```jinja
+{# --- CONFIGURATION: CHANGE YOUR SENSOR IDS HERE --- #}
+{% set score_sensor = 'sensor.YOUR_body_score' %}
+{% set fat_sensor = 'sensor.YOUR_body_fat' %}
+{% set bmi_sensor = 'sensor.YOUR_bmi' %}
+{% set visceral_sensor = 'sensor.YOUR_visceral_fat' %}
+{% set water_sensor = 'sensor.YOUR_water' %}
+{# -------------------------------------------------- #}
+```
+## 📈 Metric Standards
 
-• sensor.body_score
+The dashboard tracks and evaluates:
+• Body Score: Overall health rating.
 
-• sensor.body_fat
+• Body Fat: Categorized from Athletic to Obesity.
 
-• sensor.bmi
+• BMI: Standard WHO classifications.
 
-• sensor.visceral_fat
+• Visceral Fat: Internal fat levels and health risks.
 
-• sensor.body_water
+• Hydration: Optimal water percentage.
